@@ -2,7 +2,7 @@
 
 const I18N = {
   zh: {
-    title: "JU_ZI // 终端",
+    title: "DuoDuoJuZi",
     name: "多多橘子 / DuoDuoJuZi",
     nickname: "橘子",
     bio: "山东在读学生 · 软件与硬件爱好者",
@@ -84,7 +84,7 @@ const I18N = {
     ],
   },
   en: {
-    title: "JU_ZI // TERMINAL",
+    title: "DuoDuoJuZi",
     name: "DuoDuoJuZi",
     nickname: "DuoDuoJuZi",
     bio: "Student in Shandong, China · Software × Hardware Enthusiast",
@@ -166,7 +166,7 @@ const I18N = {
     ],
   },
   ja: {
-    title: "JU_ZI // ターミナル",
+    title: "DuoDuoJuZi",
     name: "多多橘子 / DuoDuoJuZi",
     nickname: "satoshi",
     bio: "中国山東省在学中 · ソフトウェア × ハードウェア愛好家",
