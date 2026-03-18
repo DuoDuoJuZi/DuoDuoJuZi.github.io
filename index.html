@@ -61,10 +61,6 @@
             <div class="avatar-corner bl"></div>
             <div class="avatar-corner br"></div>
           </div>
-          <span class="status-pill"
-            ><span class="dot-online"></span
-            ><span data-i18n="online">ONLINE</span></span
-          >
         </div>
 
         <div class="hero-info">
@@ -73,8 +69,18 @@
             ><span class="tb-dot g"></span>
             <span class="tb-title">bash — root@juzi</span>
           </div>
-          <div class="terminal-body">
-            <div class="terminal-line">
+          <div class="terminal-body" style="position:relative; overflow:hidden;">
+            <!-- embedded map wrapper -->
+            <div class="hero-map-bg-wrap">
+              <div id="hero-world-map"></div>
+              <div id="utc8-clock-wrap">
+                <span id="utc8-clock"></span>
+              </div>
+            </div>
+
+            <!-- content wrapper to stay above background map -->
+            <div style="position:relative; z-index:1;">
+              <div class="terminal-line">
               <span class="prompt">root@juzi:~$</span>&nbsp;<span
                 id="typed-text"
               ></span
@@ -106,6 +112,11 @@
                   >Network &amp; Hardware Lover</span
                 ></span
               >
+              <span class="badge"
+                ><i class="fas fa-language"></i>&nbsp;<span data-i18n="languages"
+                  >ZH (Native) / EN / JA</span
+                ></span
+              >
             </div>
             <div class="hero-links">
               <a
@@ -124,6 +135,7 @@
                 <i class="fas fa-terminal"></i
                 ><span data-i18n="blog">Blog</span>
               </a>
+            </div>
             </div>
           </div>
         </div>
@@ -154,6 +166,18 @@
           <span class="sec-line"></span>
         </div>
         <div class="skills-grid" id="skills-grid"></div>
+      </section>
+
+      <section class="section fade-in" id="projects">
+        <div class="section-header">
+          <span class="sec-line"></span>
+          <h2 class="sec-title">
+            <span class="bracket">[</span><span data-i18n="projects">PROJECTS</span
+            ><span class="bracket">]</span>
+          </h2>
+          <span class="sec-line"></span>
+        </div>
+        <div class="projects-list" id="projects-list"></div>
       </section>
 
       <section class="section fade-in" id="hobbies">
@@ -262,6 +286,7 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

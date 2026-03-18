@@ -9,10 +9,12 @@ const I18N = {
     location: "山东，中国 🇨🇳",
     status: "在读学生",
     network_hw: "网络 & 硬件爱好者",
+    languages: "可用语言：中文（母语）/ 英语 / 日语",
     online: "在线",
     github: "GitHub",
     blog: "博客",
     skills: "技术栈",
+    projects: "我的项目",
     timeline: "成长时间线",
     hobbies: "爱好",
     games: "常玩游戏",
@@ -91,10 +93,12 @@ const I18N = {
     location: "Shandong, China 🇨🇳",
     status: "Student",
     network_hw: "Network & Hardware Lover",
+    languages: "Languages: Chinese (Native) / English / Japanese",
     online: "ONLINE",
     github: "GitHub",
     blog: "Blog",
     skills: "SKILLS",
+    projects: "PROJECTS",
     timeline: "TIMELINE",
     hobbies: "HOBBIES",
     games: "GAMES",
@@ -173,10 +177,12 @@ const I18N = {
     location: "山東省，中国 🇨🇳",
     status: "学生",
     network_hw: "ネットワーク & ハードウェア愛好家",
+    languages: "言語：中国語（母語） / 英語 / 日本語",
     online: "オンライン",
     github: "GitHub",
     blog: "ブログ",
     skills: "スキル",
+    projects: "プロジェクト",
     timeline: "タイムライン",
     hobbies: "趣味",
     games: "ゲーム",
@@ -553,6 +559,74 @@ function renderGames(lang) {
   observeNewCards(grid);
 }
 
+const PROJECTS = [
+  {
+    id: "muelsyse",
+    title: { zh: "陪伴型AI - 缪尔赛斯", en: "Companion AI - Muelsyse", ja: "同伴AI - ミュルジス" },
+    desc: {
+      zh: "基于大语言模型构建的情感陪伴型AI系统，致力于提供拟人化的对话与情感交互体验。",
+      en: "An emotionally companionable AI system based on LLMs, providing human-like dialogue and emotional interactions.",
+      ja: "LLMを基盤とした感情的な同伴AIシステムで、人間らしい対話と感情的なやり取りを提供します。"
+    },
+    url: "https://github.com/DuoDuoJuZi/Muelsyse",
+    tech: [
+      { name: "C++", class: "devicon-cplusplus-plain" },
+      { name: "Python", class: "devicon-python-plain" }
+    ]
+  },
+  {
+    id: "fastsync",
+    title: { zh: "电脑手机同步软件 - FastSync", en: "PC-Phone Sync - FastSync", ja: "PC・スマホ同期 - FastSync" },
+    desc: {
+      zh: "高效跨平台同步工具，支持电脑与手机之间的文件、数据快速无缝传输同步。",
+      en: "Efficient cross-platform synchronization tool for fast, seamless file and data transfer between PC and mobile.",
+      ja: "PCとスマートフォンの間でファイルやデータを高速かつシームレスに同期できる、効率的なクロスプラットフォームツールです。"
+    },
+    url: "https://github.com/DuoDuoJuZi/FastSync",
+    tech: [
+      { name: "Kotlin", class: "devicon-kotlin-plain" },
+      { name: "Rust", class: "devicon-rust-plain" }
+    ]
+  },
+  {
+    id: "zeus",
+    title: { zh: "先进的看板软件 - Zeus", en: "Advanced Kanban - Zeus", ja: "先進的なカンバン - Zeus" },
+    desc: {
+      zh: "现代化、高度可定制的看板系统，帮助团队进行高效的任务管理与敏捷开发协作。",
+      en: "A modern, highly customizable Kanban system designed to help teams with efficient task management and agile collaboration.",
+      ja: "チームの効率的なタスク管理とアジャイル協調を支援する、モダンで高度にカスタマイズ可能なカンバンシステムです。"
+    },
+    url: "https://zeus.duoduojuzi.com",
+    tech: [
+      { name: "Tauri", class: "devicon-tauri-plain" },
+      { name: "Rust", class: "devicon-rust-plain" },
+      { name: "Go", class: "devicon-go-plain" },
+      { name: "Vue", class: "devicon-vuejs-plain" }
+    ]
+  }
+];
+
+function renderProjects(lang) {
+  const container = $("#projects-list");
+  if (!container) return;
+  
+  container.className = "projects-grid";
+  container.innerHTML = PROJECTS.map(p => `
+    <div class="project-card active" onclick="this.classList.toggle('active')">
+      <div class="project-content">
+        <h3 class="project-title">${p.title[lang]}</h3>
+        <div class="project-tech-stack">
+          ${p.tech.map(t => `<span class="tech-badge" title="${t.name}"><i class="${t.class}"></i></span>`).join("")}
+        </div>
+        <p class="project-desc">${p.desc[lang]}</p>
+      </div>
+      <a href="${p.url}" target="_blank" class="project-link" onclick="event.stopPropagation()" title="Open Project">
+        <span class="prompt">[</span> <i class="fas fa-terminal"></i> <span class="prompt">]</span>
+      </a>
+    </div>
+  `).join("");
+}
+
 function applyLang(lang) {
   if (!I18N[lang]) return;
   currentLang = lang;
@@ -569,6 +643,7 @@ function applyLang(lang) {
   renderTimeline(lang);
   renderHobbies(lang);
   renderGames(lang);
+  renderProjects(lang);
   renderTravelMap(lang);
   $$(".lang-btn").forEach((btn) => {
     btn.classList.toggle("active", btn.dataset.lang === lang);
@@ -824,7 +899,86 @@ function initMap() {
   setTimeout(() => mapInstance.invalidateSize(), 300);
 }
 
-function updateClock() {
+let heroMapInstance = null;
+
+function initHeroMap() {
+  const dom = document.getElementById("hero-world-map");
+  if (!dom || !window.echarts) return;
+
+  if (heroMapInstance) {
+    heroMapInstance.dispose();
+  }
+  heroMapInstance = echarts.init(dom, null, { renderer: "canvas" });
+
+  const isDark = document.documentElement.getAttribute("data-theme") !== "light";
+  const mapBg       = "transparent";
+  const landColor   = isDark ? "#1f1f33" : "#d0d4ec";
+  const borderColor = isDark ? "#3f3f5a" : "rgba(74,88,200,0.28)";
+
+  // Use a bright solid color for UTC+8 countries to make the territory glow
+  const utc8Color   = isDark ? "#7886FF" : "#4a58c8";
+  const utc8Border  = isDark ? "#a7b0ff" : "#2a38a8";
+
+  const utc8Countries = [
+    "China", "Russia", "Mongolia", "Australia",
+    "Philippines", "Malaysia", "Indonesia", "Singapore",
+    "Brunei", "Taiwan", "Macao", "Hong Kong"
+  ];
+
+  const regionsData = utc8Countries.map(name => ({
+    name: name,
+    itemStyle: {
+      areaColor: utc8Color,
+      borderColor: utc8Border,
+      borderWidth: 1,
+      shadowBlur: 15,
+      shadowColor: utc8Color
+    }
+  }));
+
+  const option = {
+    backgroundColor: mapBg,
+    geo: {
+      map: "world",
+      roam: false,
+      zoom: 1.5,
+      center: [105, 10], // Focus specifically on Asia/Australia
+      itemStyle: {
+        areaColor: landColor,
+        borderColor: borderColor,
+        borderWidth: 0.5,
+      },
+      emphasis: {
+        itemStyle: { areaColor: landColor },
+        label: { show: false },
+      },
+      silent: true,
+      regions: regionsData
+    },
+    series: [],
+  };
+
+  heroMapInstance.setOption(option);
+  window.addEventListener("resize", () => {
+    if (heroMapInstance) heroMapInstance.resize();
+  });
+}function updateHeroMapClock() {
+  const el = document.getElementById("utc8-clock");
+  if (!el) return;
+  // Get time in UTC+8
+  const now = new Date();
+  const utc8Time = new Date(now.getTime() + (now.getTimezoneOffset() + 480) * 60000);
+  
+  const pad = (n) => String(n).padStart(2, "0");
+  const y = utc8Time.getFullYear();
+  const m = pad(utc8Time.getMonth() + 1);
+  const d = pad(utc8Time.getDate());
+  const h = pad(utc8Time.getHours());
+  const min = pad(utc8Time.getMinutes());
+  const s = pad(utc8Time.getSeconds());
+
+  el.textContent = `UTC+8 ${y}-${m}-${d} ${h}:${min}:${s}`;
+}function updateClock() {
   const el = $("#clock");
   if (!el) return;
   const now = new Date();
@@ -885,7 +1039,10 @@ function initNavShadow() {
 
 document.addEventListener("DOMContentLoaded", () => {
   ThemeManager.init();
-  $("#theme-toggle").addEventListener("click", ThemeManager.toggle);
+  $("#theme-toggle").addEventListener("click", () => {
+    ThemeManager.toggle();
+    if (typeof initHeroMap === "function") initHeroMap();
+  });
   loadDeviconCSS();
   renderSkills();
   detectLangByIP();
@@ -893,8 +1050,13 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", () => applyLang(btn.dataset.lang));
   });
   initMap();
+  initHeroMap();
   updateClock();
-  setInterval(updateClock, 1000);
+  updateHeroMapClock();
+  setInterval(() => {
+    updateClock();
+    updateHeroMapClock();
+  }, 1000);
   initScrollAnimation();
   initNavShadow();
 });
