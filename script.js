@@ -431,7 +431,7 @@ function renderTimeline(lang) {
         const inCls  = tin  ? `in-${tin}`   : "";
 
         html += `
-          <div class="tl-cell ${outCls} ${inCls}" data-tl-idx="${idx}">
+          <div class="tl-cell ${outCls} ${inCls}" data-tl-idx="${idx}" style="order: ${idx};">
             <div class="tl-point ${item.active ? "active" : ""}">
               <div class="tl-dot"></div>
             </div>
@@ -442,7 +442,7 @@ function renderTimeline(lang) {
             </div>
           </div>`;
       } else {
-        html += `<div class="tl-cell tl-empty"></div>`;
+        html += `<div class="tl-cell tl-empty" style="order: 99;"></div>`;
       }
     }
     html += '</div>';

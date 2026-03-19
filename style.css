@@ -296,11 +296,18 @@ button{font-family:inherit;cursor:pointer}
 }
 
 @media(max-width: 768px) {
-  .tl-row { grid-template-columns: 1fr; }
+  .tl-snake { display: flex; flex-direction: column; }
+  .tl-row { display: contents; }
   .tl-cell { min-height: unset; padding: 0.8rem 1rem; flex-direction: row; gap: 1rem; align-items: flex-start; }
   .tl-cell::before, .tl-cell::after { display: none; }
-  .tl-label { align-items: flex-start; text-align: left; }
+  .tl-label { align-items: flex-start; text-align: left; opacity: 1 !important; transform: scale(1) !important; transition: none !important; }
+  .tl-point { opacity: 1 !important; transform: scale(1) !important; transition: none !important; }
   .tl-empty { display: none; }
+  .tl-cell.tl-hidden .tl-point,
+  .tl-cell.tl-hidden .tl-label {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+  }
 }
 
 
