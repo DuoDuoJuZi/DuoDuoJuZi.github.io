@@ -561,6 +561,21 @@ function renderGames(lang) {
 
 const PROJECTS = [
   {
+    id: "hermes",
+    title: { zh: "网易云歌词显示 - Hermes", en: "Netease Cloud Music Lyrics - Hermes", ja: "NetEase Music 歌詞表示 - Hermes" },
+    desc: {
+      zh: "通过注入破解内存或插件获取网易云音乐歌词，并提供优雅的桌面歌词显示与处理。",
+      en: "Extracts Netease Cloud Music lyrics through memory injection or plugins, providing elegant desktop lyrics display.",
+      ja: "メモリインジェクションかプラグインを通じてNetEase Musicの歌詞を取得し、エレガントなデスクトップ歌詞表示を提供します。"
+    },
+    url: "https://github.com/DuoDuoJuZi/Hermes",
+    tech: [
+      { name: "Rust", class: "devicon-rust-plain" },
+      { name: "Kotlin", class: "devicon-kotlin-plain" },
+      { name: "TypeScript", class: "devicon-typescript-plain" }
+    ]
+  },
+  {
     id: "muelsyse",
     title: { zh: "陪伴型AI - 缪尔赛斯", en: "Companion AI - Muelsyse", ja: "同伴AI - ミュルジス" },
     desc: {
