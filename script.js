@@ -570,6 +570,7 @@ const PROJECTS = [
     },
     url: "https://github.com/DuoDuoJuZi/Hermes",
     tech: [
+      { name: "C", class: "devicon-c-plain" },
       { name: "Rust", class: "devicon-rust-plain" },
       { name: "Kotlin", class: "devicon-kotlin-plain" },
       { name: "TypeScript", class: "devicon-typescript-plain" }
